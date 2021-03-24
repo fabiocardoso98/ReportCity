@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ReportCity</string>
+    <string name="register">Registar</string>
+    <string name="login">Iniciar Sessão</string>
 </resources>
