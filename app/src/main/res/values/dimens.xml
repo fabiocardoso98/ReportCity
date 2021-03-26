@@ -2,4 +2,5 @@
 <resources>
     <dimen name="thirtyDP">50dp</dimen>
     <dimen name="tenDP">10dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

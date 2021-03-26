@@ -2,4 +2,6 @@
     <string name="app_name">ReportCity</string>
     <string name="register">Registar</string>
     <string name="login">Iniciar Sessão</string>
+    <string name="addNote">Adicionar Nota</string>
+    <string name="title_activity_add_note">Notas</string>
 </resources>
