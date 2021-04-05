@@ -2,9 +2,9 @@ package com.example.reportcity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
 
         findViewById<Button>(R.id.addNote).setOnClickListener {
-            val intent = Intent(this@MainActivity, addNote::class.java)
+            val intent = Intent(this@MainActivity, notas::class.java)
             startActivity(intent)
         }
 
