@@ -14,8 +14,8 @@ interface NotasDao {
     @Query("SELECT * FROM notas ORDER BY title ASC")
     fun getNotas(): Flow<List<Notas>>
 
-    @Insert()
-    fun insert(notas: Notas)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(notas: Notas)
 
     @Query("DELETE FROM notas")
     suspend fun deleteAll()

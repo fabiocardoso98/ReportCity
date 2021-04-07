@@ -55,7 +55,7 @@ class notas : AppCompatActivity() {
                 return true
             }
             R.id.AddNote -> {
-                Toast.makeText(this, "Adicionar nota", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Adicionar nota", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, addNote::class.java)
                 startActivityForResult(intent,newNotaActivityRequestCode)
             }
@@ -72,7 +72,8 @@ class notas : AppCompatActivity() {
             val descricao= intentData?.getStringExtra("descricao")
 
             if(titulo != null && descricao != null) {
-                val nota = Notas(null,titulo, descricao, "img1.png")
+                Toast.makeText(this, "Adicionar nota: $titulo", Toast.LENGTH_SHORT).show()
+                val nota = Notas(id = null, title = titulo, description = descricao, image = "img1.png")
                 notasViewModel.insert(nota)
             }
         }else if(requestCode == 1){

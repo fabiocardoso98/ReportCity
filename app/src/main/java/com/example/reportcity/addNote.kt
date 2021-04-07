@@ -37,7 +37,7 @@ class addNote : AppCompatActivity() {
                 return true
             }
             R.id.checkAndAddNote -> {
-                Toast.makeText(this, "Adicionar nota", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, "Adicionar nota", Toast.LENGTH_LONG).show()
                 addNote()
             }
         }
