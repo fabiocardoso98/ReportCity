@@ -29,10 +29,7 @@ public abstract class reportyCityDatabase : RoomDatabase() {
 
                     // Delete all content here.
 
-                  //  NotasDao.deleteAll()
-/*
-                    // Add sample words.
-                    Log.d("TESTE_DB","INSERIR DADOS")
+                    //NotasDao.deleteAll()
 
 
                     var nota1 = Notas(1, "Titulo", "sfgijsfasd d auSDN Ads ", "adsasasd")
@@ -40,8 +37,7 @@ public abstract class reportyCityDatabase : RoomDatabase() {
                     var nota2 = Notas(2, "Titulo", "sfgijsfasd d auSDN Ads ", "adsasasd")
                     NotasDao.insert(nota2)
 
-                    Log.d("TESTE_DB","INSERIR DADOS 2")
-*/
+
                 }
             }
         }
