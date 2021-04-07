@@ -1,15 +1,18 @@
 package com.example.reportcity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reportcity.application.notasApplication
@@ -38,6 +41,20 @@ class notas : AppCompatActivity() {
         val adapter = NotasAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val swipeHandler = object : SwipeToDeleteCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                notasViewModel.allNotas.value?.get(viewHolder.adapterPosition)?.id?.let {
+                    notasViewModel.deleteNotasOne(
+                        it
+                    )
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         notasViewModel.allNotas.observe(this){ notas ->
             notas.let { adapter.submitList(it) }
@@ -80,4 +97,5 @@ class notas : AppCompatActivity() {
             Toast.makeText(this, "Erro: Campos Vazios", Toast.LENGTH_SHORT).show()
         }
     }
+
 }

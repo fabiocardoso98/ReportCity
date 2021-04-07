@@ -29,15 +29,15 @@ public abstract class reportyCityDatabase : RoomDatabase() {
 
                     // Delete all content here.
 
-                    //NotasDao.deleteAll()
+                    NotasDao.deleteAll()
 
-
+/*
                     var nota1 = Notas(1, "Titulo", "sfgijsfasd d auSDN Ads ", "adsasasd")
                     NotasDao.insert(nota1)
                     var nota2 = Notas(2, "Titulo", "sfgijsfasd d auSDN Ads ", "adsasasd")
                     NotasDao.insert(nota2)
 
-
+*/
                 }
             }
         }
