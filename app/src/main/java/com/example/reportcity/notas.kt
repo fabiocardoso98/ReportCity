@@ -52,6 +52,20 @@ class notas : AppCompatActivity() {
                 }
             }
         }
+        val swipeHandlerEdit = object : SwipeToEditCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                Toast.makeText(this@notas, "EDITAR NOTA", Toast.LENGTH_LONG).show()
+                val requestCode: Int = 2
+                val intent = Intent(this@notas, addNote::class.java)
+                intent.putExtra("requestCode", requestCode);
+
+                startActivityForResult(intent,2)
+
+            }
+        }
+
+        val itemTouchHelperEdit = ItemTouchHelper(swipeHandlerEdit)
+        itemTouchHelperEdit.attachToRecyclerView(recyclerView)
 
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)

@@ -4,8 +4,10 @@
     <string name="login">Iniciar Sessão</string>
     <string name="addNote">Adicionar Nota</string>
     <string name="title_activity_add_note">Notas</string>
+    <string name="title_activity_edit_note">Editar Nota</string>
     <string name="seeNotes">Notas</string>
 
     <string name="menu_notas_add">Adicionar nota</string>
+    <string name="menu_notas_cancel">Voltar atrás</string>
     <string name="menu_notas_see_all">Ver notas</string>
 </resources>

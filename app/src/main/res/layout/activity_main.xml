@@ -18,20 +18,14 @@
             android:layout_gravity="end"
             android:text="@string/register" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/thirtyDP"
-            app:cardCornerRadius="75dp">
-
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                tools:srcCompat="@drawable/user" />
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/thirtyDP"
+                tools:srcCompat="@drawable/account_circle_24" />
 
-        </androidx.cardview.widget.CardView>
 
         <EditText
             android:id="@+id/username"

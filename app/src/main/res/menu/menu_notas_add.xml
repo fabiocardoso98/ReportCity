@@ -7,4 +7,9 @@
         android:title="@string/menu_notas_add"
         android:icon="@drawable/check_24"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/cancelCreateNote"
+        android:title="@string/menu_notas_cancel"
+        android:icon="@drawable/cancel_24"
+        app:showAsAction="always"/>
 </menu>
