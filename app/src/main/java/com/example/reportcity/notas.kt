@@ -1,7 +1,6 @@
 package com.example.reportcity
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -56,9 +55,21 @@ class notas : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 Toast.makeText(this@notas, "EDITAR NOTA", Toast.LENGTH_LONG).show()
                 val requestCode: Int = 2
+
+                val nota: Notas? = notasViewModel.allNotas.value?.get(viewHolder.adapterPosition)
+                val id: Int? = nota?.id ?: 0
+                val titles: String = nota?.title ?: "null"
+                val description: String = nota?.description ?: "null"
+                val image: String = nota?.image ?: "null"
+
+                Toast.makeText(this@notas, "EDITAR NOTA: " + id, Toast.LENGTH_LONG).show()
+
                 val intent = Intent(this@notas, addNote::class.java)
                 intent.putExtra("requestCode", requestCode);
-
+                intent.putExtra("ID", id)
+                intent.putExtra("TITLE", titles)
+                intent.putExtra("DESCRIPTION", description)
+                intent.putExtra("IMAGE", image)
                 startActivityForResult(intent,2)
 
             }
@@ -107,6 +118,19 @@ class notas : AppCompatActivity() {
                 val nota = Notas(id = null, title = titulo, description = descricao, image = "img1.png")
                 notasViewModel.insert(nota)
             }
+        }
+
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            Toast.makeText(this, "EDITAR NOTA ", Toast.LENGTH_SHORT).show()
+
+            val id: Int? = intentData?.getIntExtra("id", 0)
+            val titulo: String? = intentData?.getStringExtra("titulo")
+            val descricao: String? = intentData?.getStringExtra("descricao")
+
+            if (id != null && titulo != null && descricao != null) {
+                notasViewModel.update(id = id, title = titulo, description = descricao)
+            }
+
         }else if(requestCode == 1){
             Toast.makeText(this, "Erro: Campos Vazios", Toast.LENGTH_SHORT).show()
         }

@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class addNote : AppCompatActivity() {
 
+    private lateinit var tituloView: EditText
+    private lateinit var descricaoView: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -29,6 +31,15 @@ class addNote : AppCompatActivity() {
         if( requestCode == 2) {
             Toast.makeText(this, "EDIT $requestCode", Toast.LENGTH_LONG).show()
             setTitle(R.string.title_activity_edit_note)
+
+            val id: String? = intent.getStringExtra("ID")
+            val titulo: String? = intent.getStringExtra("TITLE")
+            val descricao: String? = intent.getStringExtra("DESCRIPTION")
+
+            findViewById<EditText>(R.id.titleAddNote).setText(titulo)
+            findViewById<EditText>(R.id.descrition).setText(descricao)
+
+
         }else{
             Toast.makeText(this, "ADD $requestCode", Toast.LENGTH_LONG).show()
             setTitle(R.string.title_activity_add_note)
@@ -60,20 +71,23 @@ class addNote : AppCompatActivity() {
     }
 
     fun addNote() {
-        val titulo: EditText = findViewById<EditText>(R.id.titleAddNote)
-        val descricao: EditText = findViewById<EditText>(R.id.descrition)
-
+        tituloView = findViewById(R.id.titleAddNote)
+        descricaoView = findViewById(R.id.descrition)
+        val id : Int? = intent.getIntExtra("ID", 0)
         val replyIntent = Intent()
 
-        if (!TextUtils.isEmpty(titulo.text) && !TextUtils.isEmpty(descricao.text) ) {
-            replyIntent.putExtra("titulo", titulo.text.toString())
-            replyIntent.putExtra("descricao", descricao.text.toString())
-            setResult(Activity.RESULT_OK, replyIntent)
-            finish()
+        if (!TextUtils.isEmpty(tituloView.text) && !TextUtils.isEmpty(descricaoView.text) ) {
+            if((id != 0)) {
+                replyIntent.putExtra("id", id)
+                replyIntent.putExtra("titulo", tituloView.text.toString())
+                replyIntent.putExtra("descricao", descricaoView.text.toString())
+                setResult(Activity.RESULT_OK, replyIntent)
+                finish()
+            }else{
+                Toast.makeText(this, "ID == 0", Toast.LENGTH_LONG).show()
+            }
         } else {
             Toast.makeText(this, "Campos vazios", Toast.LENGTH_LONG).show()
         }
     }
-
-
 }

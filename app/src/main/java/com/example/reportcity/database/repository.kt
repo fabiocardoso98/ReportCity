@@ -17,6 +17,10 @@ class repository(private val notasDao: NotasDao) {
         notasDao.insert(notas)
     }
 
+    suspend fun update(id: Int, title: String, description: String) {
+        notasDao.updateNota(id, title, description)
+    }
+
     suspend fun deleteOne(id: Int){
         notasDao.deleteNota(id)
     }

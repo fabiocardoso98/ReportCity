@@ -13,6 +13,10 @@ class notaViewModel(private val repository: repository) : ViewModel() {
         repository.insert(notas)
     }
 
+    fun update(id: Int, title: String, description: String) = viewModelScope.launch {
+        repository.update(id, title, description)
+    }
+
     fun deleteNotasOne(id: Int) = viewModelScope.launch {
         repository.deleteOne(id)
     }
