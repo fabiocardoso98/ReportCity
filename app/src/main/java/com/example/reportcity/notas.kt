@@ -41,6 +41,30 @@ class notas : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        notasViewModel.allNotas.observe(this){ notas ->
+            notas.let { adapter.submitList(it) }
+        }
+
+        adapter.setOnItemClick(object : NotasAdapter.onItemClick {
+            override fun onViewClick(position: Int) {
+                val requestCode: Int = 3
+
+                val nota: Notas? = notasViewModel.allNotas.value?.get(position)
+
+                val id: Int? = nota?.id ?: 0
+                val titles: String = nota?.title ?: "null"
+                val description: String = nota?.description ?: "null"
+                val image: String = nota?.image ?: "null"
+
+                val intent = Intent(this@notas, ViewNotes::class.java)
+                intent.putExtra("TITLE", titles)
+                intent.putExtra("DESCRIPTION", description)
+                intent.putExtra("IMAGE", image)
+                startActivity(intent)
+            }
+
+        })
+
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
@@ -53,7 +77,6 @@ class notas : AppCompatActivity() {
         }
         val swipeHandlerEdit = object : SwipeToEditCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                Toast.makeText(this@notas, "EDITAR NOTA", Toast.LENGTH_LONG).show()
                 val requestCode: Int = 2
 
                 val nota: Notas? = notasViewModel.allNotas.value?.get(viewHolder.adapterPosition)
@@ -61,8 +84,6 @@ class notas : AppCompatActivity() {
                 val titles: String = nota?.title ?: "null"
                 val description: String = nota?.description ?: "null"
                 val image: String = nota?.image ?: "null"
-
-                Toast.makeText(this@notas, "EDITAR NOTA: " + id, Toast.LENGTH_LONG).show()
 
                 val intent = Intent(this@notas, addNote::class.java)
                 intent.putExtra("requestCode", requestCode);
@@ -81,10 +102,8 @@ class notas : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        notasViewModel.allNotas.observe(this){ notas ->
-            notas.let { adapter.submitList(it) }
-        }
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_notas, menu)
         return super.onCreateOptionsMenu(menu)
@@ -97,7 +116,6 @@ class notas : AppCompatActivity() {
                 return true
             }
             R.id.AddNote -> {
-                //Toast.makeText(this, "Adicionar nota", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, addNote::class.java)
                 startActivityForResult(intent,newNotaActivityRequestCode)
             }
@@ -114,15 +132,12 @@ class notas : AppCompatActivity() {
             val descricao= intentData?.getStringExtra("descricao")
 
             if(titulo != null && descricao != null) {
-                Toast.makeText(this, "Adicionar nota: $titulo", Toast.LENGTH_SHORT).show()
                 val nota = Notas(id = null, title = titulo, description = descricao, image = "img1.png")
                 notasViewModel.insert(nota)
             }
         }
 
         if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
-            Toast.makeText(this, "EDITAR NOTA ", Toast.LENGTH_SHORT).show()
-
             val id: Int? = intentData?.getIntExtra("id", 0)
             val titulo: String? = intentData?.getStringExtra("titulo")
             val descricao: String? = intentData?.getStringExtra("descricao")

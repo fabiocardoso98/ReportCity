@@ -1,8 +1,9 @@
-    package com.example.reportcity
+package com.example.reportcity
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -10,30 +11,53 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.reportcity.entities.Notas
 
 class NotasAdapter : ListAdapter<Notas, NotasAdapter.NotasViewHolder>(notasComparator()) {
+        private lateinit var onItemClickListener : onItemClick
+
+        public fun setOnItemClick(newOnItemClickListener: NotasAdapter.onItemClick) {
+            onItemClickListener= newOnItemClickListener
+        }
+
+        interface onItemClick {
+            fun onViewClick(position: Int)
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotasViewHolder {
-            return NotasViewHolder.create(parent)
+            return NotasViewHolder.create(parent, onItemClickListener)
         }
 
         override fun onBindViewHolder(holder: NotasViewHolder, position: Int) {
             val current = getItem(position)
-            holder.bind(current.title)
+            holder.bind(current.title, current.description)
         }
 
-        class NotasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val wordItemView: TextView = itemView.findViewById(R.id.textView)
+         class NotasViewHolder(itemView: View, onItemClick: onItemClick) : RecyclerView.ViewHolder(itemView) {
+            private val titleItemView: TextView = itemView.findViewById(R.id.titleItem)
+            private val descritionItemView: TextView = itemView.findViewById(R.id.descritionItem)
+            private val imageItemView: ImageView = itemView.findViewById(R.id.imageItem)
 
-            fun bind(text: String?) {
-                wordItemView.text = text
+            fun bind(title: String?, descrition: String?) {
+                titleItemView.text = title
+                descritionItemView.text = descrition
+                imageItemView.setImageResource(R.drawable.user)
             }
 
-            companion object {
-                fun create(parent: ViewGroup): NotasViewHolder {
-                    val view: View = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.recycler_view, parent, false)
-                    return NotasViewHolder(view)
+            init {
+                itemView.setOnClickListener { v: View ->
+                    val position = adapterPosition
+                    if(position != RecyclerView.NO_POSITION) {
+                        onItemClick.onViewClick(position)
+                    }
                 }
+
             }
+
+             companion object {
+                 fun create(parent: ViewGroup, onItemClickListener: onItemClick): NotasViewHolder {
+                     val view: View = LayoutInflater.from(parent.context)
+                             .inflate(R.layout.recycler_view, parent, false)
+                     return NotasViewHolder(view,onItemClickListener)
+                 }
+             }
         }
 
         class notasComparator : DiffUtil.ItemCallback<Notas>() {

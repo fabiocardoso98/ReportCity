@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addNote">
+    tools:context=".ViewNotes">
 
 
     <LinearLayout
@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Titulo"/>
+            android:hint="Titulo"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/descrition"
@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:gravity="start|top"
-            android:hint="Nota"/>
+            android:hint="Nota" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,6 +54,7 @@
                 android:drawableTop="@drawable/camera_60"/>
 
         </RelativeLayout>
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

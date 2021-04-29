@@ -7,7 +7,14 @@
     <string name="title_activity_edit_note">Editar Nota</string>
     <string name="seeNotes">Notas</string>
 
+    <string name="title">Titulo</string>
+    <string name="description">Descrição</string>
+
     <string name="menu_notas_add">Adicionar nota</string>
     <string name="menu_notas_cancel">Voltar atrás</string>
     <string name="menu_notas_see_all">Ver notas</string>
+
+    <string name="sharedLogin" translatable="false">sharedLogin</string>
+    <string name="userLogin" translatable="false">userLogin</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

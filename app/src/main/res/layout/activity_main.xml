@@ -11,15 +11,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/register" />
-
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/userLoginImg"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
