@@ -34,8 +34,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".drawerNav"
+            android:label="@string/title_activity_drawer_nav"
+            android:theme="@style/Theme.ReportCity.NoActionBar"></activity>
+        <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

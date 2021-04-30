@@ -25,10 +25,13 @@ package com.example.reportcity
         setContentView(R.layout.activity_main)
 
         val loginShared: SharedPreferences = getSharedPreferences(getString(R.string.sharedLogin), Context.MODE_PRIVATE)
+        val idLogin = loginShared.getInt(getString(R.string.idLogin), 0)
         val userLogin = loginShared.getString(getString(R.string.userLogin), "")
 
-        if(!userLogin.equals("")) {
+        if((!userLogin.equals("")) && (idLogin != 0)) {
             Toast.makeText(this@MainActivity, "SESSAO INICIADA", Toast.LENGTH_LONG).show()
+            val intent = Intent(this@MainActivity, drawerNav::class.java)
+            startActivity(intent)
         }
 
 
@@ -50,17 +53,20 @@ package com.example.reportcity
 
                         Log.d("INICIAR SESSAO", response.body()?.username.toString())
 
+                        loginShared.edit().putInt(getString(R.string.idLogin), response.body()?.id.toString().toInt()).commit()
                         loginShared.edit().putString(getString(R.string.userLogin), response.body()?.username.toString()).commit()
+                        val intent = Intent(this@MainActivity, drawerNav::class.java)
+                        startActivity(intent)
 
                         Toast.makeText(this@MainActivity, "INICIAR SESSAO COM SUCESSO", Toast.LENGTH_LONG).show()
                     }else{
-                        Toast.makeText(this@MainActivity, "INICIAR SESSAO DEU ASNEIRA", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, "Erro, tente mais tarde!", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<Users>, t: Throwable) {
                     Log.d("INTERNET LOGIN", t.toString())
-                    Toast.makeText(this@MainActivity, "INICIAR SESSAO DEU ASNEIRA: " +t, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, "Erro, tente mais tarde!!", Toast.LENGTH_SHORT).show()
                 }
             })
         }
