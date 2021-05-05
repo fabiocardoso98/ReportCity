@@ -2,10 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/addReport"
+    <item android:id="@+id/addNoteReport"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/add_24"/>
+        android:icon="@drawable/add_24"
+        android:title="TODO" />
 
     <item android:id="@+id/seeNotes"
         android:title="Notas"

@@ -39,6 +39,14 @@
             android:ems="10"
             android:inputType="textPassword" />
 
+        <CheckBox
+            android:id="@+id/checkboxSaveSession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="300dp"
+            android:text="@string/saveSession" />
+
         <Button
             android:id="@+id/login"
             android:layout_width="wrap_content"

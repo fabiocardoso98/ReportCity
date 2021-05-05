@@ -37,7 +37,7 @@ class drawerNav : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_map, R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+            R.id.nav_map, R.id.nav_my_reports, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -57,8 +57,8 @@ class drawerNav : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-            R.id.addNote -> {
-
+            R.id.addNoteReport -> {
+                
             }
         }
         return super.onOptionsItemSelected(item)
@@ -70,13 +70,9 @@ class drawerNav : AppCompatActivity() {
         return true
     }
 
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun logout() {
-
-    }
 }
