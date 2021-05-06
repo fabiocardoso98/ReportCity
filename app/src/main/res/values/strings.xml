@@ -15,6 +15,11 @@
     <string name="menu_notas_cancel">Voltar atrás</string>
     <string name="menu_notas_see_all">Ver notas</string>
 
+    <string name="report_edit">Editar</string>
+    <string name="report_delete">Eliminar</string>
+
+
+
     <string name="sharedLogin" translatable="false">sharedLogin</string>
     <string name="idLogin" translatable="false">idLogin</string>
     <string name="userLogin" translatable="false">userLogin</string>

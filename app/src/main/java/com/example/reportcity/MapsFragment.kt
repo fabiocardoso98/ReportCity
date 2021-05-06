@@ -4,40 +4,38 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.example.reportcity.api.ServiceBuilder
 import com.example.reportcity.api.endpoints.reports
-import com.example.reportcity.api.endpoints.user
 import com.example.reportcity.api.entities.allReports
-import com.example.reportcity.api.entities.users
 import com.google.android.gms.location.*
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.ParseException
 
-class MapsFragment : Fragment() {
+class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
 
@@ -58,6 +56,9 @@ class MapsFragment : Fragment() {
             ActivityCompat.requestPermissions(requireContext() as Activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),  1111)
             return@OnMapReadyCallback
         }
+        mMap.setInfoWindowAdapter(infoWindow(requireContext()))
+        googleMap.setOnInfoWindowClickListener(this)
+
         mMap.isMyLocationEnabled = true
         mMap.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE)
 
@@ -78,8 +79,6 @@ class MapsFragment : Fragment() {
                 val idUser = loginShared?.getInt(getString(R.string.idLogin), 0)
                 val userLogin = loginShared?.getString(getString(R.string.userLogin), "")
 
-                Toast.makeText(requireContext(), "Response: $idUser || $userLogin", Toast.LENGTH_LONG).show()
-
                 if(response.isSuccessful) {
                     for(item in response.body()!!) {
                         val loca = LatLng(item.reports.lat,item.reports.lng)
@@ -89,13 +88,13 @@ class MapsFragment : Fragment() {
                                     BitmapDescriptorFactory.defaultMarker(
                                             BitmapDescriptorFactory.HUE_AZURE
                                     )
-                            ))
+                            ).snippet(item.reports.description))
                         }else{
                             googleMap.addMarker(MarkerOptions().position(loca).title(item.reports.name).icon(
                                     BitmapDescriptorFactory.defaultMarker(
                                             BitmapDescriptorFactory.HUE_ORANGE
                                     )
-                            ))
+                            ).snippet(item.reports.description))
                         }
 
                     }
@@ -112,6 +111,7 @@ class MapsFragment : Fragment() {
                 Toast.makeText(requireContext(), t.toString(), Toast.LENGTH_LONG).show()
             }
         })
+
 
 
     }
@@ -185,6 +185,10 @@ class MapsFragment : Fragment() {
         super.onPause()
         fusedLocationClient.removeLocationUpdates(locationCallback)
         Log.d(" PAUSE REQUEST", "App em pausa")
+    }
+
+    override fun onInfoWindowClick(p0: com.google.android.gms.maps.model.Marker?) {
+        Toast.makeText(requireContext(), "INFO INFO", Toast.LENGTH_LONG).show()
     }
 /*
     override  fun onBackPressed() {
