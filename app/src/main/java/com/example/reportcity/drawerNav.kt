@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -17,10 +18,14 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import com.example.reportcity.ui.reportsOne.reportOne
 
 class drawerNav : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +38,10 @@ class drawerNav : AppCompatActivity() {
 
         val navView: NavigationView = findViewById(R.id.nav_view)
 
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+       navController = findNavController(R.id.nav_host_fragment)
+
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_map, R.id.nav_my_reports, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+            R.id.nav_map, R.id.nav_my_reports, R.id.nav_report, R.id.nav_one_report), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -58,7 +62,10 @@ class drawerNav : AppCompatActivity() {
                 return true
             }
             R.id.addNoteReport -> {
-                
+                val intent = Intent(this@drawerNav, addReport::class.java)
+                startActivity(intent)
+                return true
+
             }
         }
         return super.onOptionsItemSelected(item)

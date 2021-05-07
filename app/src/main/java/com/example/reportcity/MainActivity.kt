@@ -7,15 +7,17 @@ package com.example.reportcity
     import android.util.Log
     import android.widget.*
     import androidx.appcompat.app.AppCompatActivity
+    import androidx.fragment.app.FragmentTransaction
     import com.example.reportcity.api.ServiceBuilder
     import com.example.reportcity.api.endpoints.user
     import com.example.reportcity.api.entities.users
+    import com.example.reportcity.ui.reportsOne.reportOne
     import retrofit2.Call
     import retrofit2.Callback
     import retrofit2.Response
 
 
-    class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +45,7 @@ package com.example.reportcity
             val password: String = findViewById<EditText>(R.id.password).text.toString()
             val check: Boolean = findViewById<CheckBox>(R.id.checkboxSaveSession).isChecked
 
-
             Toast.makeText(this@MainActivity, "SUCESSO: $check", Toast.LENGTH_LONG).show()
-
 
             val request = ServiceBuilder.buildService(user::class.java)
             val call = request.login(username,password)
@@ -54,9 +54,8 @@ package com.example.reportcity
                 override fun onResponse(call: Call<users>, response: Response<users>) {
                     if(response.isSuccessful) {
 
-                        loginShared.edit().putInt(getString(R.string.idLogin), response.body()?.id.toString().toInt()).commit()
-                        loginShared.edit().putString(getString(R.string.userLogin), response.body()?.username.toString()).commit()
-
+                            loginShared.edit().putInt(getString(R.string.idLogin), response.body()?.id.toString().toInt()).commit()
+                            loginShared.edit().putString(getString(R.string.userLogin), response.body()?.username.toString()).commit()
 
                         val intent = Intent(this@MainActivity, drawerNav::class.java)
                         startActivity(intent)
@@ -80,6 +79,7 @@ package com.example.reportcity
     override  fun onBackPressed() {
 
     }
+
 
 }
 

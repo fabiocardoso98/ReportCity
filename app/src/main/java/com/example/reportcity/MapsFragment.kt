@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.reportcity.api.ServiceBuilder
 import com.example.reportcity.api.endpoints.reports
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +40,8 @@ import retrofit2.Response
 class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
+
+
 
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -49,6 +53,9 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
     //Resolver permissão
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
+        val loginShared: SharedPreferences? = activity?.getSharedPreferences(getString(R.string.sharedLogin), Context.MODE_PRIVATE)
+        val idUser = loginShared?.getInt(getString(R.string.idLogin), 0)
+        val userLogin = loginShared?.getString(getString(R.string.userLogin), "")
 
         mMap = googleMap
 
@@ -75,26 +82,25 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
         call.enqueue(object  : Callback<List<allReports>> {
             override fun onResponse(call: Call<List<allReports>>, response: Response<List<allReports>>) {
 
-                val loginShared: SharedPreferences? = activity?.getSharedPreferences(getString(R.string.sharedLogin), Context.MODE_PRIVATE)
-                val idUser = loginShared?.getInt(getString(R.string.idLogin), 0)
-                val userLogin = loginShared?.getString(getString(R.string.userLogin), "")
+
 
                 if(response.isSuccessful) {
                     for(item in response.body()!!) {
                         val loca = LatLng(item.reports.lat,item.reports.lng)
+                        Log.d("ADD_REPORT_MAP", idUser.toString())
 
                         if(item.users.id == idUser ) {
                             googleMap.addMarker(MarkerOptions().position(loca).title(item.reports.name).icon(
                                     BitmapDescriptorFactory.defaultMarker(
-                                            BitmapDescriptorFactory.HUE_AZURE
+                                            BitmapDescriptorFactory.HUE_ORANGE
                                     )
-                            ).snippet(item.reports.description))
+                            ).snippet(item.reports.description + "+" + item.reports.id.toString() + "+" + item.reports.image))
                         }else{
                             googleMap.addMarker(MarkerOptions().position(loca).title(item.reports.name).icon(
                                     BitmapDescriptorFactory.defaultMarker(
-                                            BitmapDescriptorFactory.HUE_ORANGE
+                                            BitmapDescriptorFactory.HUE_AZURE
                                     )
-                            ).snippet(item.reports.description))
+                            ).snippet(item.reports.description + "+" + item.reports.id.toString() + "+" + item.reports.image))
                         }
 
                     }
@@ -121,16 +127,15 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_maps, container, false)
+        val root = inflater.inflate(R.layout.fragment_maps, container, false)
 
 
 
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
@@ -146,19 +151,30 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
             override fun onLocationResult(p0: LocationResult?) {
                 super.onLocationResult(p0)
                 if (p0 != null) {
+
                     lastLocation = p0.lastLocation
+
                 }
+
                 var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
+                with(
+                        requireContext().getSharedPreferences(
+                            getString(R.string.sharedLogin), Context.MODE_PRIVATE
+                        ).edit()
+                        ) {
+                    putString(
+                        getString(R.string.userLocation),
+                        lastLocation.latitude.toString() + ", " + lastLocation.longitude.toString()
+                    )
+                    commit()
+                }
+
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15.0f))
                 //mMap.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE)
             }
         }
 
-
         createLocationRequest()
-
-
-
 
     }
 
@@ -184,12 +200,17 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
     override fun onPause() {
         super.onPause()
         fusedLocationClient.removeLocationUpdates(locationCallback)
-        Log.d(" PAUSE REQUEST", "App em pausa")
+        Log.d(" PAUSE_REQUEST", "App em pausa")
     }
 
     override fun onInfoWindowClick(p0: com.google.android.gms.maps.model.Marker?) {
         Toast.makeText(requireContext(), "INFO INFO", Toast.LENGTH_LONG).show()
+
+
+
+        (activity as drawerNav).navController.navigate(R.id.nav_one_report, bundleOf("idReport"  to p0!!.snippet.split("+")[1].toInt()))
     }
+    
 /*
     override  fun onBackPressed() {
         Toast.makeText(requireContext(), "nao volta", Toast.LENGTH_SHORT).show()

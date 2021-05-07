@@ -1,17 +1,22 @@
 package com.example.reportcity.api.endpoints
 
-import com.example.reportcity.api.entities.allReports
+import com.example.reportcity.api.entities.*
 import com.example.reportcity.api.entities.reports
-import com.example.reportcity.api.entities.result
 import retrofit2.Call
 import retrofit2.http.*
 
 interface reports {
-/*
+
+
     @FormUrlEncoded
-    @POST("users/login")
-    fun login(@Field( "username") username: String?, @Field("password") password: String?): Call<reports>
-*/
+    @POST("report")
+    fun setReport(@Field( "name") name: String, @Field("description") description: String, @Field( "image") image: String, @Field("lat") lat: String,
+              @Field( "lng") lng: String, @Field("morada") morada: String,@Field( "users_id") users_id: String): Call<result>
+
+    @FormUrlEncoded
+    @PUT("reports/{id}")
+    fun setUpdateReport(@Path("id") id: Int, @Field( "name") name: String, @Field("description") description: String, @Field( "image") image: String, @Field("lat") lat: String,
+                        @Field( "lng") lng: String, @Field("morada") morada: String, @Field( "users_id") users_id: String): Call<result>
 
     @GET("reports")
     fun getAllReports(): Call<List<allReports>>

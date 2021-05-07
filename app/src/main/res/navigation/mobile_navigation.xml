@@ -11,21 +11,26 @@
         android:label="@string/menu_map"
         tools:layout="@layout/fragment_maps" />
 
-    <fragment
-        android:id="@+id/nav_my_reports"
-        android:name="com.example.reportcity.ui.reports.ReportsFragment"
-        android:label="@string/menu_report"
-        tools:layout="@layout/fragment_my_reports" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.reportcity.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:id="@+id/nav_report"
+        android:name="com.example.reportcity.ui.reportsAll.ReportsAllFragment"
+        android:label="@string/menu_report"
         tools:layout="@layout/fragment_reports" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.reportcity.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_my_reports"
+        android:name="com.example.reportcity.ui.reports.ReportsFragment"
+        android:label="@string/menu_report_my"
+        tools:layout="@layout/fragment_my_reports" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_one_report"
+        android:name="com.example.reportcity.ui.reportsOne.reportOne"
+        android:label="@string/menu_one_report"
+        tools:layout="@layout/report_one_fragment" >
+        <argument android:name="idReport" app:argType="integer" />
+    </fragment>
+
 </navigation>

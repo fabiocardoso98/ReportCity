@@ -17,12 +17,17 @@
 
     <string name="report_edit">Editar</string>
     <string name="report_delete">Eliminar</string>
-
+    <string name="reportName">Nome da situação</string>
+    <string name="reportAdress">Morada da situação</string>
+    <string name="reportDescription">Descrição da situação</string>
+    <string name="menu_report_add">Adicionar situação</string>
+    <string name="menu_report_cancel">Voltar atrás</string>
 
 
     <string name="sharedLogin" translatable="false">sharedLogin</string>
     <string name="idLogin" translatable="false">idLogin</string>
     <string name="userLogin" translatable="false">userLogin</string>
+    <string name="userLocation" translatable="false">userLocation</string>
 
 
     <string name="menu_map" translatable="false">Mapa</string>
@@ -40,6 +45,7 @@
 
     <string name="menu_report" translatable="false">Situações reportadas</string>
     <string name="menu_report_my" translatable="false">Minhas Situações</string>
+    <string name="menu_one_report" translatable="false">Situação</string>
     <string name="menu_gallery" translatable="false">Gallery</string>
     <string name="menu_slideshow" translatable="false">Slideshow</string>
 </resources>
